@@ -117,7 +117,7 @@ object OptionExercises1 {
   def mkPersonThenChangeName(oldName: String, age: Int, newName: String): Option[Person] = {
     mkPerson(oldName, age) match {
       case None => None
-      case Some(p) => Some(changeName(newName, p))
+      case Some(p) => if(newName.trim.isEmpty) None else Some(changeName(newName, p))
     }
   }
 

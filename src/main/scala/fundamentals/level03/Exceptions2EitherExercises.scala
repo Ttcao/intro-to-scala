@@ -80,9 +80,13 @@ object Exceptions2EitherExercises {
 
   def getAge(providedAge: String): Either[AppError, Int] =
     try {
-      ???
+      if (providedAge.toInt < 1 || providedAge.toInt > 120) {
+        Left(InvalidAgeRange(s"provided age should be between 1-120: $providedAge"))
+      } else {
+        Right(providedAge.toInt)
+      }
     } catch {
-      case _: NumberFormatException => ???
+      case _: NumberFormatException => Left(InvalidAgeValue(s"provided age is invalid: $providedAge"))
     }
 
   /**
@@ -103,7 +107,12 @@ object Exceptions2EitherExercises {
     *
     * Hint: Use a for-comprehension to sequence the Eithers from getName and getAge
     */
-  def createPerson(name: String, age: String): Either[AppError, Person] = ???
+  def createPerson(name: String, age: String): Either[AppError, Person] = {
+    for {
+      name <- getName(name)
+      age <- getAge(age)
+    } yield Person(name, age)
+  }
 
   /**
     * Implement the function createValidPeople that uses the personStringPairs List
@@ -115,7 +124,14 @@ object Exceptions2EitherExercises {
     * Hint: use the collect method on List
     *
     */
-  def createValidPeople: List[Person] = ???
+  def createValidPeople: List[Person] = {
+    //    ExceptionExercises.personStringPairs
+    //      .map({ case (name, age) => createPerson(name, age) })
+    //      .collect { case Right(person) => person }
+    ExceptionExercises.personStringPairs
+      .map({ case (name, age) => createPerson(name, age) })
+      .collect { case Right(person) => person }
+  }
 
   /**
     * Implement the function collectErrors that collects all the errors
@@ -129,5 +145,9 @@ object Exceptions2EitherExercises {
     *
     * Hint: use the collect method on List
     */
-  def collectErrors: List[AppError] = ???
+  def collectErrors: List[AppError] = {
+    ExceptionExercises.personStringPairs
+      .map({ case (name, age) => createPerson(name, age) })
+      .collect({ case Left(e) => e })
+  }
 }

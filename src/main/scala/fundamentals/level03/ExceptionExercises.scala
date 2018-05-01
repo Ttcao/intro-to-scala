@@ -120,7 +120,7 @@ object ExceptionExercises {
     */
   def validPairs: List[(String, String)] = {
     personStringPairs.filter(
-      { case (name, age) => Try(getName(name)) == Success(name) && Try(getAge(age).toString) == Success(age) }
+      { case (name, age) => Try(getName(name)).isSuccess && Try(getAge(age).toString).isSuccess }
     )
   }
 
