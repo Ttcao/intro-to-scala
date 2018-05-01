@@ -1,7 +1,6 @@
 package fundamentals.level03
 
 import fundamentals.level02.TypesExercises.Person
-import fundamentals.level03.ExceptionExercises.personStringPairs
 
 /**
   * These exercises show the alternative to throwing Exceptions using the `Either` data type.
@@ -58,7 +57,9 @@ object Exceptions2EitherExercises {
     * scala> getName("   ")
     * = Left(EmptyName(provided name is empty))
     **/
-  def getName(providedName: String): Either[AppError, String] = ???
+  def getName(providedName: String): Either[AppError, String] = {
+    if (providedName.trim.isEmpty) Left(EmptyName("provided name is empty")) else Right(providedName)
+  }
 
   /**
     * Implement the function getAge that returns a Left with an InvalidAgeValue if the age provided can't
@@ -76,6 +77,7 @@ object Exceptions2EitherExercises {
     *
     * Hint: use the toInt method to convert a String to an Int.
     */
+
   def getAge(providedAge: String): Either[AppError, Int] =
     try {
       ???

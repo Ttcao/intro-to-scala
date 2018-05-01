@@ -2,6 +2,7 @@ package fundamentals.level03
 
 import fundamentals.level02.TypesExercises.{Person, TrafficLight}
 import TrafficLight._
+import fundamentals.level02.TypesExercises
 
 /**
   * These exercises are intended to show the problems that come with programming with `null`s.
@@ -17,7 +18,14 @@ object NullExercises {
     * scala> mkTrafficLightOrNull("bob")
     * = null
     **/
-  def mkTrafficLightOrNull(str: String): TrafficLight = ???
+  def mkTrafficLightOrNull(str: String): TrafficLight = {
+    str match {
+      case "red" => Red
+      case "green" => Green
+      case "yellow" => Yellow
+      case _ => null
+    }
+  }
 
   /**
     * scala> mkTrafficLightOrNullThenShow("red")
@@ -28,7 +36,14 @@ object NullExercises {
     *
     * Hint: Use `mkTrafficLightOrNull` and pattern matching
     */
-  def mkTrafficLightOrNullThenShow(str: String): String = ???
+  def mkTrafficLightOrNullThenShow(str: String): String = {
+    mkTrafficLightOrNull(str) match {
+      case Red => "Traffic light is red"
+      case Green => "Traffic light is green"
+      case Yellow => "Traffic light is yellow"
+      case _ => "Traffic light is invalid"
+    }
+  }
 
   /**
     * scala> mkPersonOrNull("Bob", 20)
@@ -44,7 +59,9 @@ object NullExercises {
     * scala> mkPersonOrNull("Bob", -1)
     * = null
     **/
-  def mkPersonOrNull(name: String, age: Int): Person = ???
+  def mkPersonOrNull(name: String, age: Int): Person = {
+    if (name.trim.isEmpty || age < 1) null else Person(name, age)
+  }
 
   /**
     * scala> mkPersonOrNullThenChangeName("Bob", 20, "John")
@@ -60,7 +77,16 @@ object NullExercises {
     *
     * Hint: Use `mkPersonOrNull` and `changeName`
     **/
-  def mkPersonOrNullThenChangeName(oldName: String, age: Int, newName: String): Person = ???
+  def mkPersonOrNullThenChangeName(oldName: String, age: Int, newName: String): Person = {
+    val person = mkPersonOrNull(oldName, age)
+    if (person == null) {
+      null
+    }
+    else {
+      TypesExercises.changeName(newName, person)
+    }
+
+  }
 
   /**
     * Does the following function return a `null`?

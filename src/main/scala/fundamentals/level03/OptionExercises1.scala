@@ -2,6 +2,7 @@ package fundamentals.level03
 
 import fundamentals.level02.TypesExercises._
 import TrafficLight._
+import fundamentals.level03.OptionExercises1.mkTrafficLight
 
 /**
   * Here we introduce a new ADT - `Option` - for dealing with values that may not exist.
@@ -25,7 +26,12 @@ object OptionExercises1 {
     * scala> safeMean(Nil)
     * = None
     **/
-  def safeMean(nums: List[Int]): Option[Double] = ???
+  def safeMean(nums: List[Int]): Option[Double] = {
+    nums match {
+      case Nil => None
+      case list => Some(list.sum / list.length.toDouble)
+    }
+  }
 
   /**
     * Safe constructors
@@ -40,7 +46,14 @@ object OptionExercises1 {
     * scala> mkTrafficLight("bob")
     * = None
     **/
-  def mkTrafficLight(str: String): Option[TrafficLight] = ???
+  def mkTrafficLight(str: String): Option[TrafficLight] = {
+    str match {
+      case "red" => Some(Red)
+      case "green" => Some(Green)
+      case "yellow" => Some(Yellow)
+      case _ => None
+    }
+  }
 
   /**
     * scala> mkTrafficLightThenShow("red")
@@ -60,7 +73,14 @@ object OptionExercises1 {
     * }
     * ```
     */
-  def mkTrafficLightThenShow(str: String): String = ???
+  def mkTrafficLightThenShow(str: String): String = {
+    mkTrafficLight(str) match {
+      case Some(Red) => "Traffic light is red"
+      case Some(Green) => "Traffic light is green"
+      case Some(Yellow) => "Traffic light is yellow"
+      case _ => s"Traffic light `$str` is invalid"
+    }
+  }
 
   /**
     * scala> mkPerson("Bob", 20)
@@ -78,7 +98,9 @@ object OptionExercises1 {
     *
     * Hint: Don't forget every if needs an else!
     **/
-  def mkPerson(name: String, age: Int): Option[Person] = ???
+  def mkPerson(name: String, age: Int): Option[Person] = {
+    if (name.trim.isEmpty || age < 0) None else Some(Person(name, age))
+  }
 
   /**
     * scala> mkPersonThenChangeName("Bob", 20, "John")
@@ -92,6 +114,11 @@ object OptionExercises1 {
     *
     * Hint: Use `mkPerson` and pattern matching
     **/
-  def mkPersonThenChangeName(oldName: String, age: Int, newName: String): Option[Person] = ???
+  def mkPersonThenChangeName(oldName: String, age: Int, newName: String): Option[Person] = {
+    mkPerson(oldName, age) match {
+      case None => None
+      case Some(p) => Some(changeName(newName, p))
+    }
+  }
 
 }
